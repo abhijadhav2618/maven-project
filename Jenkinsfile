@@ -3,7 +3,7 @@ pipeline{
         stages{
             stage("SCM checkout"){
                 steps{
-                    git 'https://github.com/abhijadhav2618/newmavenproject.git'
+                    git url:'https://github.com/abhijadhav2618/maven-project.git', branch:'master'
                 }
             }
 
@@ -39,7 +39,7 @@ pipeline{
 
             stage("Push image to docker hub"){
                 steps{
-                    withDockerRegistry(credentialsId: 'Docker_Hub_Cred'), url:"https://index.docker.io/v1/" {
+                    withDockerRegistry(credentialsId: 'Docker_Hub_Cred', url:"https://index.docker.io/v1/") {
                         sh "docker push abhijadhav2618/docker923:latest"
 
                     }   
