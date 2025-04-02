@@ -31,18 +31,11 @@ pipeline{
                 }
             }
 
-            stage("docker build"){
+            stage("deploy the application on apache"){
                 steps{
-                    sh "docker build -t abhijadhav2618/docker923:latest ."
-                }
-            }
-
-            stage("Push image to docker hub"){
-                steps{
-                    withDockerRegistry(credentialsId: 'Docker_Hub_Cred', url:"https://index.docker.io/v1/") {
-                        sh "docker push abhijadhav2618/docker923:latest"
-
-                    }   
+                    sshagent(['DEVCICD']) {
+                           sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.13.128:/usr/share/tomcat/webapps'
+                    }
                 }
             }
         
